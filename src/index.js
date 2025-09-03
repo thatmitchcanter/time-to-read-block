@@ -1,6 +1,7 @@
 const { registerBlockType } = wp.blocks;
 const { __ } = wp.i18n;
-const { useBlockProps } = wp.blockEditor;
+const { InspectorControls, useBlockProps } = wp.blockEditor;
+const { PanelBody, TextControl } = wp.components;
 
 registerBlockType('ttrb/time-to-read', {
     title: __('Time to Read'),
@@ -37,16 +38,35 @@ registerBlockType('ttrb/time-to-read', {
             width: true
         }
     },
-    attributes: {},
+    attributes: {
+        wordsPerMinute: {
+            type: 'number',
+            default: 275
+        }
+    },
     edit: function(props) {
+        const { attributes, setAttributes } = props;
         const blockProps = useBlockProps();
 
         return (
-            <div {...blockProps}>
-                <span className="ttrb-text">
-                    {__('Time to Read: XX')}
-                </span>
-            </div>
+            <>
+                <InspectorControls>
+                    <PanelBody title={__('Reading Settings')} initialOpen={true}>
+                        <TextControl
+                            label={__('Words per Minute')}
+                            value={attributes.wordsPerMinute}
+                            onChange={(value) => setAttributes({ wordsPerMinute: parseInt(value) || 275 })}
+                            help={__('Average reading speed (default: 275 WPM)')}
+                            type="number"
+                        />
+                    </PanelBody>
+                </InspectorControls>
+                <div {...blockProps}>
+                    <span className="ttrb-text">
+                        {__('Time to Read: XX')}
+                    </span>
+                </div>
+            </>
         );
     },
     save: function() {

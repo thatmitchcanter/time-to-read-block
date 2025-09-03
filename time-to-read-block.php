@@ -40,6 +40,12 @@ function ttrb_init() {
         'editor_style' => 'ttrb-block-editor',
         'render_callback' => 'ttrb_render_block',
         'uses_context' => array('postId', 'postType'),
+        'attributes' => array(
+            'wordsPerMinute' => array(
+                'type' => 'number',
+                'default' => 275
+            )
+        ),
         'supports' => array(
             'color' => array(
                 'text' => true,
@@ -87,7 +93,9 @@ function ttrb_render_block($attributes, $content, $block) {
         $post_id = get_the_ID();
     }
     
-    $reading_time = ttrb_calculate_reading_time($post_id);
+    // Get words per minute from block attributes, fallback to 275
+    $words_per_minute = isset($attributes['wordsPerMinute']) ? (int)$attributes['wordsPerMinute'] : 275;
+    $reading_time = ttrb_calculate_reading_time($post_id, $words_per_minute);
     
     if (!$reading_time) {
         return '<p>Unable to calculate reading time.</p>';
@@ -106,7 +114,7 @@ function ttrb_render_block($attributes, $content, $block) {
 }
 
 // Calculate reading time function
-function ttrb_calculate_reading_time($page_id) {
+function ttrb_calculate_reading_time($page_id, $words_per_minute = 275) {
     $post = get_post($page_id);
     
     if (!$post) {
@@ -123,8 +131,8 @@ function ttrb_calculate_reading_time($page_id) {
     // Count words
     $word_count = str_word_count($content);
     
-    // Calculate reading time (275 words per minute)
-    $reading_speed = 275;
+    // Calculate reading time using provided words per minute
+    $reading_speed = $words_per_minute;
     $minutes = ceil($word_count / $reading_speed);
     
     if ($minutes < 1) {
@@ -136,35 +144,7 @@ function ttrb_calculate_reading_time($page_id) {
     }
 }
 
-// Add admin menu
-function ttrb_admin_menu() {
-    add_options_page(
-        'Time to Read Block Settings',
-        'Time to Read Block',
-        'manage_options',
-        'ttrb-settings',
-        'ttrb_settings_page'
-    );
-}
-add_action('admin_menu', 'ttrb_admin_menu');
 
-// Settings page
-function ttrb_settings_page() {
-    ?>
-    <div class="wrap">
-        <h1>Time to Read Block Settings</h1>
-        <p>This plugin adds a Gutenberg block that displays the estimated reading time for articles.</p>
-        <p><strong>Reading speed:</strong> 275 words per minute</p>
-        <h2>Usage</h2>
-        <p>Add the "Time to Read" block to your posts or pages. The block will automatically:</p>
-        <ul>
-            <li>Calculate reading time for the current post/page</li>
-            <li>Work within Query Loop blocks to show reading time for each post</li>
-            <li>Allow optional customization of text and background colors</li>
-        </ul>
-    </div>
-    <?php
-}
 
 // Enqueue frontend styles
 function ttrb_enqueue_frontend_styles() {
