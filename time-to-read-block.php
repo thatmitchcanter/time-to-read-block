@@ -40,14 +40,31 @@ function ttrb_init() {
         'editor_style' => 'ttrb-block-editor',
         'render_callback' => 'ttrb_render_block',
         'uses_context' => array('postId', 'postType'),
-        'attributes' => array(
-            'textColor' => array(
-                'type' => 'string',
-                'default' => null
+        'supports' => array(
+            'color' => array(
+                'text' => true,
+                'background' => true
             ),
-            'backgroundColor' => array(
-                'type' => 'string',
-                'default' => null
+            'typography' => array(
+                'fontSize' => true,
+                'fontFamily' => true,
+                'fontWeight' => true,
+                'lineHeight' => true,
+                'letterSpacing' => true,
+                'textTransform' => true
+            ),
+            'spacing' => array(
+                'padding' => true,
+                'margin' => true
+            ),
+            'dimensions' => array(
+                'minHeight' => true
+            ),
+            '__experimentalBorder' => array(
+                'color' => true,
+                'radius' => true,
+                'style' => true,
+                'width' => true
             )
         )
     ));
@@ -74,26 +91,16 @@ function ttrb_render_block($attributes, $content, $block) {
         return '<p>Unable to calculate reading time.</p>';
     }
 
-    // Build inline styles only if colors are set
-    $styles = array();
-    if (!empty($attributes['textColor'])) {
-        $styles[] = sprintf('color: %s', esc_attr($attributes['textColor']));
-    }
-    if (!empty($attributes['backgroundColor'])) {
-        $styles[] = sprintf('background-color: %s', esc_attr($attributes['backgroundColor']));
-    }
+    // Get block wrapper attributes (WordPress handles all styling)
+    $wrapper_attributes = get_block_wrapper_attributes();
     
-    $style_attr = !empty($styles) ? sprintf(' style="%s"', implode('; ', $styles)) : '';
-    
-    $output = sprintf(
-        '<div class="ttrb-block"%s>
+    return sprintf(
+        '<div %s>
             <span class="ttrb-text">%s</span>
         </div>',
-        $style_attr,
+        $wrapper_attributes,
         esc_html($reading_time)
     );
-    
-    return $output;
 }
 
 // Calculate reading time function
@@ -119,11 +126,11 @@ function ttrb_calculate_reading_time($page_id) {
     $minutes = ceil($word_count / $reading_speed);
     
     if ($minutes < 1) {
-        return 'Less than 1 minute read';
+        return 'Reading time: Less than 1 minute ';
     } elseif ($minutes == 1) {
-        return '1 minute read';
+        return 'Reading time:1 minute';
     } else {
-        return sprintf('%d minute%s read', $minutes, $minutes > 1 ? 's' : '');
+        return sprintf('Reading time: %d minute%s', $minutes, $minutes > 1 ? 's' : '');
     }
 }
 

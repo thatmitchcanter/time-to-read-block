@@ -1,67 +1,50 @@
 const { registerBlockType } = wp.blocks;
 const { __ } = wp.i18n;
-const { InspectorControls, useBlockProps, PanelColorSettings } = wp.blockEditor;
-const { PanelBody, ToggleControl, TextControl } = wp.components;
+const { useBlockProps } = wp.blockEditor;
 
 registerBlockType('ttrb/time-to-read', {
     title: __('Time to Read'),
     description: __('Display estimated reading time for a specific article'),
+    icon: 'clock',
     category: 'widgets',
     usesContext: ['postId', 'postType'],
-    attributes: {
-        textColor: {
-            type: 'string',
-            default: null
+    supports: {
+        color: {
+            text: true,
+            background: true
         },
-        backgroundColor: {
-            type: 'string',
-            default: null
+        typography: {
+            fontSize: true,
+            fontFamily: true,
+            fontWeight: true,
+            lineHeight: true,
+            letterSpacing: true,
+            textTransform: true
+        },
+        spacing: {
+            padding: true,
+            margin: true
+        },
+        dimensions: {
+            minHeight: true
+        },
+        __experimentalBorder: {
+            color: true,
+            radius: true,
+            style: true,
+            width: true
         }
     },
+    attributes: {},
     edit: function(props) {
-        const { attributes, setAttributes } = props;
         const blockProps = useBlockProps();
 
         return (
-            <>
-                <InspectorControls>
-                    <PanelColorSettings
-                        title={__('Color Settings')}
-                        colorSettings={[
-                            {
-                                value: attributes.textColor,
-                                onChange: (value) => setAttributes({ textColor: value }),
-                                label: __('Text Color'),
-                                clearable: true
-                            },
-                            {
-                                value: attributes.backgroundColor,
-                                onChange: (value) => setAttributes({ backgroundColor: value }),
-                                label: __('Background Color'),
-                                clearable: true
-                            }
-                        ]}
-                    />
-                </InspectorControls>
-                <div {...blockProps}>
-                    <div 
-                        className="ttrb-block"
-                        style={{
-                            color: attributes.textColor,
-                            backgroundColor: attributes.backgroundColor,
-                            padding: '10px',
-                            borderRadius: '4px',
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '8px'
-                        }}
-                    >
-                        <span className="ttrb-text">
-                            {__('Time to Read: XX')}
-                        </span>
-                    </div>
-                </div>
-            </>
+            <div {...blockProps}>
+                <span className="ttrb-text">
+                    {__('Time to Read: XX')}
+                </span>
+            </div>
         );
     },
     save: function() {
