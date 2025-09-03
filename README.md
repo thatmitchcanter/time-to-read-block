@@ -24,9 +24,8 @@ A WordPress Gutenberg block that displays estimated reading time for articles. T
 3. The block will automatically calculate reading time for the current post
 
 ### In Query Loops
-- Add the Time to Read block inside Query Loop blocks
-- It will automatically calculate reading time for each post in the loop
-- No additional configuration needed
+1. Add the Time to Read block inside Query Loop blocks
+2. It will automatically calculate reading time for each post in the loop
 
 ### Customization Options
 
