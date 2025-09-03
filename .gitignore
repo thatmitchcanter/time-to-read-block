@@ -1,0 +1,52 @@
+# Dependencies
+/node_modules
+/vendor
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Editor files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build process
+.cache/
+/dist/
+
+# WordPress specific
+*.sql
+*.tar.gz
+*.zip
+
+# Temporary files
+.tmp
+.temp
+
+# Optional: Comment these out if you want to include built files in version control
+# /build/
+# *.asset.php
+
+# Testing
+/coverage/
+/phpunit.xml
+.phpunit.result.cache
+
+# Composer
+composer.phar
+/vendor/
+composer.lock
+
+# npm/yarn
+package-lock.json
+yarn.lock

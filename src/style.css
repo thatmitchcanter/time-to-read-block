@@ -1,0 +1,27 @@
+.ttrb-block {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.ttrb-icon {
+    font-size: 16px;
+}
+
+.ttrb-text {
+    font-weight: 500;
+}
+
+/* Editor Styles */
+.ttrb-color-settings {
+    margin-top: 16px;
+}
+
+.ttrb-color-settings p {
+    margin-bottom: 8px;
+    font-weight: 500;
+}

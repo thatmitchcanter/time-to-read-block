@@ -1,0 +1,16 @@
+{
+    "name": "time-to-read-block",
+    "version": "1.0.0",
+    "description": "A Gutenberg block that displays estimated reading time for articles",
+    "scripts": {
+        "build": "wp-scripts build",
+        "start": "wp-scripts start",
+        "format": "wp-scripts format",
+        "lint:js": "wp-scripts lint-js"
+    },
+    "author": "",
+    "license": "GPL-2.0-or-later",
+    "devDependencies": {
+        "@wordpress/scripts": "^26.0.0"
+    }
+}
