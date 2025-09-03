@@ -49,9 +49,11 @@ function ttrb_init() {
                 'fontSize' => true,
                 'fontFamily' => true,
                 'fontWeight' => true,
+                'fontStyle' => true,
                 'lineHeight' => true,
                 'letterSpacing' => true,
-                'textTransform' => true
+                'textTransform' => true,
+                'textDecoration' => true
             ),
             'spacing' => array(
                 'padding' => true,
@@ -128,7 +130,7 @@ function ttrb_calculate_reading_time($page_id) {
     if ($minutes < 1) {
         return 'Reading time: Less than 1 minute ';
     } elseif ($minutes == 1) {
-        return 'Reading time:1 minute';
+        return 'Reading time: 1 minute';
     } else {
         return sprintf('Reading time: %d minute%s', $minutes, $minutes > 1 ? 's' : '');
     }

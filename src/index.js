@@ -17,9 +17,11 @@ registerBlockType('ttrb/time-to-read', {
             fontSize: true,
             fontFamily: true,
             fontWeight: true,
+            fontStyle: true,
             lineHeight: true,
             letterSpacing: true,
-            textTransform: true
+            textTransform: true,
+            textDecoration: true
         },
         spacing: {
             padding: true,
